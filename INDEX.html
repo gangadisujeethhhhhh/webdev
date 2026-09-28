@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MyBlog - Modern Blogging Website</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f7f8fc;
+      color: #222;
+      line-height: 1.6;
+    }
+
+    /* NAVBAR */
+    nav {
+      background: #ffffff;
+      padding: 18px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #6c4cff;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #6c4cff;
+    }
+
+    .menu-btn {
+      display: none;
+      font-size: 25px;
+      cursor: pointer;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 450px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(135deg, #6c4cff, #9b7cff);
+      color: white;
+    }
+
+    .hero-content {
+      max-width: 800px;
+    }
+
+    .hero h1 {
+      font-size: 52px;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 19px;
+      margin-bottom: 30px;
+      opacity: 0.95;
+    }
+
+    .hero-btn {
+      display: inline-block;
+      padding: 13px 28px;
+      background: white;
+      color: #6c4cff;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .hero-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    /* CONTAINER */
+    .container {
+      width: 84%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    /* SEARCH */
+    .search-section {
+      padding: 40px 0 10px;
+      text-align: center;
+    }
+
+    .search-box {
+      width: 100%;
+      max-width: 600px;
+      padding: 15px 20px;
+      border: 1px solid #ddd;
+      border-radius: 30px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .search-box:focus {
+      border-color: #6c4cff;
+    }
+
+    /* BLOG SECTION */
+    .section-title {
+      text-align: center;
+      font-size: 34px;
+      margin: 50px 0 30px;
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .blog-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+      transition: 0.3s;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    }
+
+    .blog-image {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+    }
+
+    .blog-content {
+      padding: 22px;
+    }
+
+    .category {
+      color: #6c4cff;
+      font-size: 14px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .blog-content h3 {
+      font-size: 22px;
+      margin: 10px 0;
+    }
+
+    .blog-content p {
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .read-more {
+      color: #6c4cff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* CATEGORIES */
+    .categories {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 30px 0;
+    }
+
+    .category-btn {
+      border: none;
+      background: #eeeaff;
+      color: #6c4cff;
+      padding: 10px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .category-btn:hover {
+      background: #6c4cff;
+      color: white;
+    }
+
+    /* NEWSLETTER */
+    .newsletter {
+      margin-top: 70px;
+      padding: 60px 20px;
+      text-align: center;
+      background: #17152a;
+      color: white;
+    }
+
+    .newsletter h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .newsletter p {
+      color: #ccc;
+      margin-bottom: 25px;
+    }
+
+    .newsletter-form {
+      display: flex;
+      max-width: 550px;
+      margin: auto;
+    }
+
+    .newsletter-form input {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      outline: none;
+      border-radius: 30px 0 0 30px;
+      font-size: 16px;
+    }
+
+    .newsletter-form button {
+      padding: 15px 25px;
+      border: none;
+      background: #6c4cff;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 0 30px 30px 0;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #0e0d19;
+      color: #aaa;
+      text-align: center;
+      padding: 25px;
+    }
+
+    footer span {
+      color: #6c4cff;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .blog-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hero h1 {
+        font-size: 42px;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: white;
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+
+      .blog-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 35px;
+      }
+
+      .newsletter-form {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .newsletter-form input,
+      .newsletter-form button {
+        border-radius: 30px;
+      }
+
+      .container {
+        width: 92%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="logo">MyBlog</div>
+
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#">Home</a></li>
+      <li><a href="#blogs">Blogs</a></li>
+      <li><a href="#categories">Categories</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Ideas Worth Sharing</h1>
+
+      <p>
+        Discover useful articles, inspiring stories, technology,
+        lifestyle tips and much more.
+      </p>
+
+      <a href="#blogs" class="hero-btn">Explore Articles</a>
+    </div>
+  </section>
+
+  <!-- SEARCH -->
+  <section class="search-section container">
+    <input
+      type="text"
+      id="search"
+      class="search-box"
+      placeholder="Search articles..."
+      onkeyup="searchBlogs()"
+    >
+  </section>
+
+  <!-- BLOGS -->
+  <main class="container" id="blogs">
+
+    <h2 class="section-title">Latest Articles</h2>
+
+    <!-- CATEGORIES -->
+    <div class="categories" id="categories">
+      <button class="category-btn" onclick="filterBlogs('all')">
+        All
+      </button>
+
+      <button class="category-btn" onclick="filterBlogs('technology')">
+        Technology
+      </button>
+
+      <button class="category-btn" onclick="filterBlogs('lifestyle')">
+        Lifestyle
+      </button>
+
+      <button class="category-btn" onclick="filterBlogs('travel')">
+        Travel
+      </button>
+
+      <button class="category-btn" onclick="filterBlogs('business')">
+        Business
+      </button>
+    </div>
+
+    <div class="blog-grid" id="blogGrid">
+
+      <!-- BLOG 1 -->
+      <article class="blog-card" data-category="technology">
+        <img
+          class="blog-image"
+          src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80"
+          alt="Technology"
+        >
+
+        <div class="blog-content">
+          <span class="category">Technology</span>
+
+          <h3>The Future of Technology</h3>
+
+          <p>
+            Explore how modern technology is changing the way
+            we live, work and communicate.
+          </p>
+
+          <a href="#" class="read-more">Read More →</a>
+        </div>
+      </article>
+
+      <!-- BLOG 2 -->
+      <article class="blog-card" data-category="lifestyle">
+        <img
+          class="blog-image"
+          src="https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=800&q=80"
+          alt="Lifestyle"
+        >
+
+        <div class="blog-content">
+          <span class="category">Lifestyle</span>
+
+          <h3>Simple Habits for a Better Life</h3>
+
+          <p>
+            Small daily habits can make a big difference.
+            Discover simple ways to improve your lifestyle.
+          </p>
+
+          <a href="#" class="read-more">Read More →</a>
+        </div>
+      </article>
+
+      <!-- BLOG 3 -->
+      <article class="blog-card" data-category="travel">
+        <img
+          class="blog-image"
+          src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80"
+          alt="Travel"
+        >
+
+        <div class="blog-content">
+          <span class="category">Travel</span>
+
+          <h3>Beautiful Places to Visit</h3>
+
+          <p>
+            Discover amazing destinations and get inspired
+            for your next adventure.
+          </p>
+
+          <a href="#" class="read-more">Read More →</a>
+        </div>
+      </article>
+
+      <!-- BLOG 4 -->
+      <article class="blog-card" data-category="business">
+        <img
+          class="blog-image"
+          src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=800&q=80"
+          alt="Business"
+        >
+
+        <div class="blog-content">
+          <span class="category">Business</span>
+
+          <h3>How to Start an Online Business</h3>
+
+          <p>
+            Learn some important basics for starting and
+            growing your own online business.
+          </p>
+
+          <a href="#" class="read-more">Read More →</a>
+        </div>
+      </article>
+
+      <!-- BLOG 5 -->
+      <article class="blog-card" data-category="technology">
+        <img
+          class="blog-image"
+          src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80"
+          alt="Artificial Intelligence"
+        >
+
+        <div class="blog-content">
+          <span class="category">Technology</span>
+
+          <h3>Understanding Artificial Intelligence</h3>
+
+          <p>
+            Learn the basics of AI and how artificial intelligence
+            is becoming part of everyday life.
+          </p>
+
+          <a href="#" class="read-more">Read More →</a>
+        </div>
+      </article>
+
+      <!-- BLOG 6 -->
+      <article class="blog-card" data-category="lifestyle">
+        <img
+          class="blog-image"
+          src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80"
+          alt="Healthy lifestyle"
+        >
+
+        <div class="blog-content">
+          <span class="category">Lifestyle</span>
+
+          <h3>Creating a Productive Routine</h3>
+
+          <p>
+            Build a simple routine that helps you stay focused,
+            organized and productive.
+          </p>
+
+          <a href="#" class="read-more">Read More →</a>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter" id="contact">
+
+    <h2>Subscribe to Our Newsletter</h2>
+
+    <p>
+      Get our latest articles directly in your inbox.
+    </p>
+
+    <form class="newsletter-form" onsubmit="subscribe(event)">
+      <input
+        type="email"
+        placeholder="Enter your email"
+        required
+      >
+
+      <button type="submit">Subscribe</button>
+    </form>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="about">
+    <p>
+      © 2026 <span>MyBlog</span>. All rights reserved.
+    </p>
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+
+    // Mobile menu
+    function toggleMenu() {
+      document
+        .getElementById("navLinks")
+        .classList.toggle("active");
+    }
+
+    // Search blogs
+    function searchBlogs() {
+
+      const search =
+        document
+          .getElementById("search")
+          .value
+          .toLowerCase();
+
+      const blogs =
+        document.querySelectorAll(".blog-card");
+
+      blogs.forEach(function(blog) {
+
+        const text =
+          blog.innerText.toLowerCase();
+
+        if (text.includes(search)) {
+          blog.style.display = "block";
+        } else {
+          blog.style.display = "none";
+        }
+
+      });
+    }
+
+    // Filter blogs
+    function filterBlogs(category) {
+
+      const blogs =
+        document.querySelectorAll(".blog-card");
+
+      blogs.forEach(function(blog) {
+
+        if (
+          category === "all" ||
+          blog.dataset.category === category
+        ) {
+          blog.style.display = "block";
+        } else {
+          blog.style.display = "none";
+        }
+
+      });
+    }
+
+    // Newsletter
+    function subscribe(event) {
+
+      event.preventDefault();
+
+      alert(
+        "Thanks for subscribing to MyBlog!"
+      );
+
+      event.target.reset();
+    }
+
+  </script>
+
+</body>
+</html>
